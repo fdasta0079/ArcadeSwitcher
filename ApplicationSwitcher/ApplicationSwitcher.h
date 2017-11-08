@@ -1,24 +1,30 @@
 #pragma once
 
-#include <QtWidgets/QMainWindow>
+#include <QMainWindow>
 #include <QProcess>
 
 #include "ui_ApplicationSwitcher.h"
 
+class SettingWidgetManager;
+
 class ApplicationSwitcher : public QMainWindow
 {
-	Q_OBJECT
+    Q_OBJECT
 
 public:
-	ApplicationSwitcher(QWidget *parent = Q_NULLPTR);
-	virtual ~ApplicationSwitcher();
+    ApplicationSwitcher(QWidget *parent = Q_NULLPTR);
+    virtual ~ApplicationSwitcher();
 
 private slots:
-	void launchProcess(/*const QString& procName*/);
-	void appStateChanged(QProcess::ProcessState newState);
+    void launchProcess(/*const QString& procName*/);
+    void appStateChanged(QProcess::ProcessState newState);
 
 private:
-	Ui::ApplicationSwitcherClass m_ui;
+    void regenerateGameList();
 
-	QProcess* m_curProcess;
+    Ui::ApplicationSwitcherClass m_ui;
+
+    SettingWidgetManager* m_settingManager;
+
+    QProcess* m_curProcess;
 };
