@@ -6,7 +6,6 @@
 #include <QtGamepad\qgamepad.h>
 
 #include "SettingWidgetManager.h"
-#include "SettingWidget.h" //TODO: Circular/bad include?
 
 ApplicationSwitcher::ApplicationSwitcher(QWidget *parent)
     : QMainWindow(parent),
@@ -29,7 +28,6 @@ ApplicationSwitcher::ApplicationSwitcher(QWidget *parent)
     /*
     Todo List:
     - Fancy selection window with nice grafixxxx.
-    - Saving of settings.
     - Process status checking (need to disable running another thing if we're running something, for instance.)
     - USB controls, with interruption on a button.
     */
