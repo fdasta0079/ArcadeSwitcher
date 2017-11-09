@@ -1,6 +1,8 @@
 #include "ApplicationSwitcher.h"
 
 #include <QPushButton>
+#include <QDir>
+#include <QSettings>
 #include <QtGamepad\qgamepad.h>
 
 #include "SettingWidgetManager.h"
@@ -11,30 +13,25 @@ ApplicationSwitcher::ApplicationSwitcher(QWidget *parent)
     m_curProcess(nullptr)
 {
     m_ui.setupUi(this);
+    qRegisterMetaTypeStreamOperators<GameInfoList>("GameInfoList");
 
     m_settingManager = new SettingWidgetManager(this);
     m_settingManager->setWindowModality(Qt::WindowModality::WindowModal);
     connect(m_ui.tmpEditSettingsButton, &QPushButton::clicked, m_settingManager, &QWidget::show);
     connect(m_settingManager, &QDialog::finished, this, &ApplicationSwitcher::regenerateGameList);
 
-    //TODO: Remove test button junk.
-    connect(m_ui.testBroforceButton, &QPushButton::clicked, this, &ApplicationSwitcher::launchProcess);
-    connect(m_ui.testSamuraiGunnButton, &QPushButton::clicked, this, &ApplicationSwitcher::launchProcess);
-    m_ui.testBroforceButton->setProperty("Path", "D:/Programs/Steam/steamapps/common/Broforce/Broforce_beta.exe");
-    m_ui.testSamuraiGunnButton->setProperty("Path", "D:/Programs/Steam/steamapps/common/Samurai Gunn/SamuraiGunn.exe");
-
     m_curProcess = new QProcess(this);
 
     connect(m_curProcess, &QProcess::stateChanged, this, &ApplicationSwitcher::appStateChanged);
     
+    readSettings();
+
     /*
     Todo List:
-    - Settings window allowing for specifying arbitrary games and their arguments.
     - Fancy selection window with nice grafixxxx.
     - Saving of settings.
     - Process status checking (need to disable running another thing if we're running something, for instance.)
     - USB controls, with interruption on a button.
-    - Put this all up on Github.
     */
 }
 
@@ -57,6 +54,22 @@ ApplicationSwitcher::~ApplicationSwitcher()
     }
 }
 
+void ApplicationSwitcher::writeSettings()
+{
+    QSettings settings (QSettings::IniFormat, QSettings::UserScope, "Bonus Round", "Arcade Switcher");
+
+    settings.setValue("GameList", QVariant::fromValue(m_settingManager->getGameList()));
+    settings.sync();
+}
+
+void ApplicationSwitcher::readSettings()
+{
+    QSettings settings (QSettings::IniFormat, QSettings::UserScope, "Bonus Round", "Arcade Switcher");
+
+    m_settingManager->setGameList(settings.value("GameList").value<GameInfoList>());
+    regenerateGameList();
+}
+
 void ApplicationSwitcher::launchProcess()
 {
     QPushButton* button = qobject_cast<QPushButton*>(sender());
@@ -66,9 +79,8 @@ void ApplicationSwitcher::launchProcess()
     }
 
     if (m_curProcess->state() == QProcess::NotRunning) {
-        //Doing this based on the button text is gross, but this is temporary anyway.
         //Slash direction matters!
-        QString path = button->property("Path").toString();
+        QString path = QDir::fromNativeSeparators(button->property("Path").toString());
 
         if (path.isEmpty()) {
             return; //TODO: Bad game error msg.
@@ -108,16 +120,16 @@ void ApplicationSwitcher::regenerateGameList()
         }
     }
 
-    QList<SettingWidget*> gameList = m_settingManager->getSettingWidgetList();
+    GameInfoList gameList = m_settingManager->getGameList();
 
     for (auto game : gameList) {
-        if (game) {
-            QPushButton* gameButton = new QPushButton();
-            gameButton->setProperty("Path", game->getGamePath());
-            gameButton->setText("Launch " + game->getGameName());
-            gameButton->setToolTip(game->getGamePath());
-            m_ui.launchButtonLayout->addWidget(gameButton);
-            connect(gameButton, &QPushButton::clicked, this, &ApplicationSwitcher::launchProcess);
-        }
+        QPushButton* gameButton = new QPushButton();
+        gameButton->setProperty("Path", game.path);
+        gameButton->setText("Launch " + game.name);
+        gameButton->setToolTip(game.path);
+        m_ui.launchButtonLayout->addWidget(gameButton);
+        connect(gameButton, &QPushButton::clicked, this, &ApplicationSwitcher::launchProcess);
     }
+
+    writeSettings();
 }

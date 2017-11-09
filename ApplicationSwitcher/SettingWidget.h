@@ -15,8 +15,15 @@ public:
     const QString getGamePath();
     const QString getGameDescription();
 
+    void setGameName(const QString&);
+    void setGamePath(const QString&);
+    void setGameDescription(const QString&);
+
 signals:
     void deletePressed();
+
+private slots:
+    void browseForGame();
 
 private:
     Ui::settingWidget m_ui;

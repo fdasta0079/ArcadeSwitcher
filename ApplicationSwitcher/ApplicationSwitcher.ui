@@ -17,24 +17,16 @@
    <layout class="QGridLayout" name="gridLayout">
     <item row="0" column="0">
      <widget class="QGroupBox" name="launcherBox">
+      <property name="minimumSize">
+       <size>
+        <width>150</width>
+        <height>0</height>
+       </size>
+      </property>
       <property name="title">
        <string>LauncherBox</string>
       </property>
       <layout class="QVBoxLayout" name="verticalLayout">
-       <item>
-        <widget class="QPushButton" name="testBroforceButton">
-         <property name="text">
-          <string>TEST Launch Broforce</string>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="QPushButton" name="testSamuraiGunnButton">
-         <property name="text">
-          <string>TEST Launch Samurai Gunn</string>
-         </property>
-        </widget>
-       </item>
        <item>
         <layout class="QVBoxLayout" name="launchButtonLayout"/>
        </item>
@@ -82,7 +74,7 @@
      <x>0</x>
      <y>0</y>
      <width>604</width>
-     <height>26</height>
+     <height>21</height>
     </rect>
    </property>
   </widget>

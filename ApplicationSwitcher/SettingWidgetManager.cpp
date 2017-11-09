@@ -14,14 +14,50 @@ SettingWidgetManager::~SettingWidgetManager()
 {
     for (auto&& settingWidget : m_settingWidgetList) {
         if (settingWidget) {
-            settingWidget->deleteLater();
+            delete settingWidget;
+        }
+
+    }
+
+    m_settingWidgetList.clear();
+}
+
+void SettingWidgetManager::setGameList(const GameInfoList& gameInfoList)
+{
+    for (auto&& gameInfo : gameInfoList) {
+        createNewGameEntryPrivate(gameInfo);
+    }
+}
+
+const GameInfoList SettingWidgetManager::getGameList()
+{
+    GameInfoList gameInfoList;
+
+    for (auto&& settingWidget : m_settingWidgetList) {
+        if (settingWidget) {
+            GameInfo gameInfo;
+            gameInfo.name = settingWidget->getGameName();
+            gameInfo.path = settingWidget->getGamePath();
+            gameInfo.description = settingWidget->getGameDescription();
+
+            gameInfoList.append(gameInfo);
         }
     }
+
+    return gameInfoList;
 }
 
 void SettingWidgetManager::createNewGameEntry()
 {
+    createNewGameEntryPrivate(GameInfo());
+}
+
+void SettingWidgetManager::createNewGameEntryPrivate(const GameInfo& gameInfo)
+{
     SettingWidget* settingWidget = new SettingWidget(this);
+    settingWidget->setGameName(gameInfo.name);
+    settingWidget->setGamePath(gameInfo.path);
+    settingWidget->setGameDescription(gameInfo.description);
 
     m_ui.settingWidgetLayout->addWidget(settingWidget);
     m_settingWidgetList.append(settingWidget);

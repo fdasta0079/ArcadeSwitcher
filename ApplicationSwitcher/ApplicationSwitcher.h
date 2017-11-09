@@ -21,6 +21,8 @@ private slots:
 
 private:
     void regenerateGameList();
+    void writeSettings();
+    void readSettings();
 
     Ui::ApplicationSwitcherClass m_ui;
 
