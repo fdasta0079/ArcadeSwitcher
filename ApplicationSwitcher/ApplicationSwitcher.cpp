@@ -3,6 +3,7 @@
 #include <QPushButton>
 #include <QDir>
 #include <QSettings>
+#include <QImageReader>
 #include <QtGamepad\qgamepad.h>
 
 #include "SettingWidgetManager.h"
@@ -25,11 +26,14 @@ ApplicationSwitcher::ApplicationSwitcher(QWidget *parent)
     
     readSettings();
 
+    m_ui.descriptionEdit->setReadOnly(true);
+
     /*
     Todo List:
     - Fancy selection window with nice grafixxxx.
     - Process status checking (need to disable running another thing if we're running something, for instance.)
     - USB controls, with interruption on a button.
+    - Figure out how to mitigate issue where steam launches and then launches the game, thus breaking our control signals. Offline mode in Steam isn't a fix.
     */
 }
 
@@ -123,11 +127,31 @@ void ApplicationSwitcher::regenerateGameList()
     for (auto game : gameList) {
         QPushButton* gameButton = new QPushButton();
         gameButton->setProperty("Path", game.path);
+        gameButton->setProperty("Image Path", game.image);
+        gameButton->setProperty("Description", game.description);
         gameButton->setText("Launch " + game.name);
         gameButton->setToolTip(game.path);
         m_ui.launchButtonLayout->addWidget(gameButton);
         connect(gameButton, &QPushButton::clicked, this, &ApplicationSwitcher::launchProcess);
+        gameButton->installEventFilter(this);
     }
 
     writeSettings();
+}
+
+bool ApplicationSwitcher::eventFilter(QObject *obj, QEvent *event)
+{
+    QPushButton* button = qobject_cast<QPushButton*>(obj);
+    if (button) {
+        if (event->type() == QEvent::Enter) {
+            m_ui.descriptionEdit->setText(button->property("Description").toString());
+            //TODO: Save the pixmaps as a property instead of loading the file every time.
+            //There also isn't really any testing to see if the image is valid, but YOLO.
+            int w = m_ui.imageLabel->width();
+            int h = m_ui.imageLabel->height();
+            m_ui.imageLabel->setPixmap(QPixmap(button->property("Image Path").toString()).scaled(w, h, Qt::KeepAspectRatio));
+        }
+
+        return QWidget::eventFilter(obj, event);
+    }
 }

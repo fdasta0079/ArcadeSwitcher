@@ -14,16 +14,19 @@ public:
     const QString getGameName();
     const QString getGamePath();
     const QString getGameDescription();
+    const QString getGameImage();
 
     void setGameName(const QString&);
     void setGamePath(const QString&);
     void setGameDescription(const QString&);
+    void setGameImage(const QString&);
 
 signals:
     void deletePressed();
 
 private slots:
     void browseForGame();
+    void browseForImage();
 
 private:
     Ui::settingWidget m_ui;

@@ -6,14 +6,14 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>370</width>
-    <height>100</height>
+    <width>558</width>
+    <height>252</height>
    </rect>
   </property>
-  <property name="maximumSize">
+  <property name="minimumSize">
    <size>
-    <width>16777215</width>
-    <height>100</height>
+    <width>0</width>
+    <height>250</height>
    </size>
   </property>
   <property name="windowTitle">
@@ -34,6 +34,12 @@
          <horstretch>0</horstretch>
          <verstretch>0</verstretch>
         </sizepolicy>
+       </property>
+       <property name="minimumSize">
+        <size>
+         <width>41</width>
+         <height>0</height>
+        </size>
        </property>
        <property name="text">
         <string>Name:</string>
@@ -57,7 +63,7 @@
        </property>
        <property name="minimumSize">
         <size>
-         <width>31</width>
+         <width>41</width>
          <height>0</height>
         </size>
        </property>
@@ -70,7 +76,7 @@
       <widget class="QLineEdit" name="pathEdit"/>
      </item>
      <item>
-      <widget class="QPushButton" name="browseButton">
+      <widget class="QPushButton" name="browseGameButton">
        <property name="maximumSize">
         <size>
          <width>20</width>
@@ -83,6 +89,79 @@
       </widget>
      </item>
     </layout>
+   </item>
+   <item>
+    <layout class="QHBoxLayout" name="horizontalLayout_3">
+     <item>
+      <widget class="QLabel" name="label_3">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
+       <property name="minimumSize">
+        <size>
+         <width>31</width>
+         <height>0</height>
+        </size>
+       </property>
+       <property name="text">
+        <string>Image:</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QLineEdit" name="imageEdit"/>
+     </item>
+     <item>
+      <widget class="QPushButton" name="browseImageButton">
+       <property name="maximumSize">
+        <size>
+         <width>20</width>
+         <height>16777215</height>
+        </size>
+       </property>
+       <property name="text">
+        <string>...</string>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </item>
+   <item>
+    <widget class="QScrollArea" name="descScrollArea">
+     <property name="widgetResizable">
+      <bool>true</bool>
+     </property>
+     <widget class="QWidget" name="scrollAreaWidgetContents">
+      <property name="geometry">
+       <rect>
+        <x>0</x>
+        <y>0</y>
+        <width>534</width>
+        <height>88</height>
+       </rect>
+      </property>
+      <layout class="QGridLayout" name="gridLayout">
+       <property name="leftMargin">
+        <number>0</number>
+       </property>
+       <property name="topMargin">
+        <number>0</number>
+       </property>
+       <property name="rightMargin">
+        <number>0</number>
+       </property>
+       <property name="bottomMargin">
+        <number>0</number>
+       </property>
+       <item row="0" column="0">
+        <widget class="QTextEdit" name="descriptionEdit"/>
+       </item>
+      </layout>
+     </widget>
+    </widget>
    </item>
    <item>
     <widget class="QPushButton" name="deleteButton">

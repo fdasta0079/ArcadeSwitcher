@@ -10,6 +10,7 @@ struct GameInfo
     QString name;
     QString path;
     QString description;
+    QString image;
 };
 
 inline QDataStream &operator << (QDataStream &out, const GameInfo& gameInfo)
@@ -17,6 +18,7 @@ inline QDataStream &operator << (QDataStream &out, const GameInfo& gameInfo)
     out << gameInfo.name;
     out << gameInfo.path;
     out << gameInfo.description;
+    out << gameInfo.image;
 
     return out;
 }
@@ -26,6 +28,7 @@ inline QDataStream &operator >> (QDataStream &in, GameInfo& gameInfo)
     in >> gameInfo.name;
     in >> gameInfo.path;
     in >> gameInfo.description;
+    in >> gameInfo.image;
 
     return in;
 }

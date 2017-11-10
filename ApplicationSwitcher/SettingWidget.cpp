@@ -8,7 +8,8 @@ SettingWidget::SettingWidget(QWidget* parent, Qt::WindowFlags flags)
     m_ui.setupUi(this);
 
     connect(m_ui.deleteButton, &QPushButton::clicked, this, &SettingWidget::deletePressed);
-    connect(m_ui.browseButton, &QPushButton::clicked, this, &SettingWidget::browseForGame);
+    connect(m_ui.browseGameButton, &QPushButton::clicked, this, &SettingWidget::browseForGame);
+    connect(m_ui.browseImageButton, &QPushButton::clicked, this, &SettingWidget::browseForImage);
 }
 
 SettingWidget::~SettingWidget() {}
@@ -25,8 +26,13 @@ const QString SettingWidget::getGamePath()
 
 const QString SettingWidget::getGameDescription()
 {
-    return "";
-    //TODO: Return description.
+    //TODO: Return rich text (requires slight rewrite of stream operators).
+    return m_ui.descriptionEdit->toPlainText();
+}
+
+const QString SettingWidget::getGameImage()
+{
+    return m_ui.imageEdit->text();
 }
 
 void SettingWidget::setGameName(const QString& name)
@@ -41,7 +47,12 @@ void SettingWidget::setGamePath(const QString& path)
 
 void SettingWidget::setGameDescription(const QString& description)
 {
-    //TODO: set description.
+    m_ui.descriptionEdit->setText(description);
+}
+
+void SettingWidget::setGameImage(const QString& image)
+{
+    m_ui.imageEdit->setText(image);
 }
 
 void SettingWidget::browseForGame()
@@ -51,4 +62,13 @@ void SettingWidget::browseForGame()
         tr("Applications (*.exe);;All Files (*)"));
 
     m_ui.pathEdit->setText(fileName);
+}
+
+void SettingWidget::browseForImage()
+{
+    QString fileName = QFileDialog::getOpenFileName(this,
+        tr("Select Image"), "",
+        tr("Image Files (*.png *.jpg *.bmp);;All Files (*)"));
+
+    m_ui.imageEdit->setText(fileName);
 }

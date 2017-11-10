@@ -16,7 +16,6 @@ SettingWidgetManager::~SettingWidgetManager()
         if (settingWidget) {
             delete settingWidget;
         }
-
     }
 
     m_settingWidgetList.clear();
@@ -39,6 +38,7 @@ const GameInfoList SettingWidgetManager::getGameList()
             gameInfo.name = settingWidget->getGameName();
             gameInfo.path = settingWidget->getGamePath();
             gameInfo.description = settingWidget->getGameDescription();
+            gameInfo.image = settingWidget->getGameImage();
 
             gameInfoList.append(gameInfo);
         }
@@ -58,6 +58,7 @@ void SettingWidgetManager::createNewGameEntryPrivate(const GameInfo& gameInfo)
     settingWidget->setGameName(gameInfo.name);
     settingWidget->setGamePath(gameInfo.path);
     settingWidget->setGameDescription(gameInfo.description);
+    settingWidget->setGameImage(gameInfo.image);
 
     m_ui.settingWidgetLayout->addWidget(settingWidget);
     m_settingWidgetList.append(settingWidget);
