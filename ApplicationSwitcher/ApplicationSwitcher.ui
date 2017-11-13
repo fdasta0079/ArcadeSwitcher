@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>604</width>
+    <width>858</width>
     <height>626</height>
    </rect>
   </property>
@@ -19,7 +19,7 @@
      <widget class="QGroupBox" name="launcherBox">
       <property name="minimumSize">
        <size>
-        <width>150</width>
+        <width>300</width>
         <height>0</height>
        </size>
       </property>
@@ -36,7 +36,7 @@
     <item row="1" column="0">
      <widget class="QPushButton" name="tmpEditSettingsButton">
       <property name="text">
-       <string>Edit Settings</string>
+       <string>Edit Games</string>
       </property>
      </widget>
     </item>
@@ -49,7 +49,7 @@
        <item>
         <widget class="QLabel" name="imageLabel">
          <property name="sizePolicy">
-          <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+          <sizepolicy hsizetype="Preferred" vsizetype="MinimumExpanding">
            <horstretch>0</horstretch>
            <verstretch>0</verstretch>
           </sizepolicy>
@@ -68,10 +68,16 @@
        <item>
         <widget class="QTextEdit" name="descriptionEdit">
          <property name="sizePolicy">
-          <sizepolicy hsizetype="MinimumExpanding" vsizetype="MinimumExpanding">
+          <sizepolicy hsizetype="MinimumExpanding" vsizetype="Fixed">
            <horstretch>0</horstretch>
            <verstretch>0</verstretch>
           </sizepolicy>
+         </property>
+         <property name="maximumSize">
+          <size>
+           <width>16777215</width>
+           <height>200</height>
+          </size>
          </property>
         </widget>
        </item>
@@ -85,18 +91,10 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>604</width>
+     <width>858</width>
      <height>26</height>
     </rect>
    </property>
-  </widget>
-  <widget class="QToolBar" name="mainToolBar">
-   <attribute name="toolBarArea">
-    <enum>TopToolBarArea</enum>
-   </attribute>
-   <attribute name="toolBarBreak">
-    <bool>false</bool>
-   </attribute>
   </widget>
   <widget class="QStatusBar" name="statusBar"/>
  </widget>
